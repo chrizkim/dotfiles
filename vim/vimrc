@@ -1,0 +1,195 @@
+set shell=bash
+
+" Polyglot
+" Needs to be declared before loading vim-polyglot
+" https://github.com/sheerun/vim-polyglot#troubleshooting
+let g:polyglot_disabled=['go', 'terraform']
+
+" ~~~~ Start Plug config ~~~~
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'airblade/vim-gitgutter'
+Plug 'bling/vim-airline'
+Plug 'bronson/vim-visual-star-search'
+Plug 'croaker/mustang-vim'
+Plug 'ervandew/supertab'
+Plug 'fatih/vim-go', { 'do': 'nvim -c GoUpdateBinaries -c qa!' }
+Plug 'hashivim/vim-terraform'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && ~/.nodenv/shims/npx --yes yarn install' }
+Plug 'jlanzarotta/bufexplorer'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'scrooloose/nerdtree'
+Plug 'sheerun/vim-polyglot'
+Plug 'Shougo/deoplete.nvim', { 'do': 'nvim -c UpdateRemotePlugins -c qa!' }
+Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-surround'
+Plug 'vim-scripts/InsertChar'
+Plug 'vim-utils/vim-husk'
+
+call plug#end()
+
+" ~~~~ End Plug config ~~~~
+
+set nocompatible
+
+" Mustang colorscheme
+set background=dark
+if !empty(globpath(&rtp, 'colors/mustang.vim'))
+  colorscheme mustang
+endif
+
+" View options
+set nowrap
+set nu
+set showcmd
+set title
+
+" Consistency
+nmap Y y$
+vmap y ygv<ESC>
+nmap p p`]
+
+" Visual move
+vmap K :m '<-2<CR>gv=gv
+vmap J :m '>+1<CR>gv=gv
+
+" Enable mouse
+set mouse=a
+
+" Use system clipboard
+set clipboard=unnamed
+
+" Sudo write
+cmap w!! w !sudo -S tee > /dev/null %
+
+" Cursor styles for Insert/Replace/Normal modes
+let &t_SI="\e[6 q"
+let &t_SR="\e[4 q"
+let &t_EI="\e[2 q"
+
+" Highlight row and column
+set cursorline
+set cursorcolumn
+hi CursorLine cterm=NONE
+
+" Only display cursorline on active pane
+" From: http://stackoverflow.com/questions/12017331/how-can-i-make-vim-highlight-the-current-line-on-only-the-active-buffer
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline cursorcolumn
+  au WinLeave * setlocal nocursorline nocursorcolumn
+augroup END
+
+" Tab options
+set expandtab
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+
+" Indent shortcuts
+vmap > >gv
+vmap < <gv
+nmap > >>
+nmap < <<
+
+" Search options
+set hlsearch
+set ignorecase
+set smartcase
+
+" Set leader to Space
+let mapleader="\<space>"
+
+" Open new buffers helpers
+nmap <leader>sh :leftabove vnew<cr>
+nmap <leader>sl :rightbelow vnew<cr>
+nmap <leader>sk :leftabove new<cr>
+nmap <leader>sj :rightbelow new<cr>
+nmap <leader>st :tabnew<CR>
+
+" Edit file helpers
+nmap <leader>ew :e <C-R>=expand('%:h').'/'<cr>
+nmap <leader>es :sp <C-R>=expand('%:h').'/'<cr>
+nmap <leader>ev :vsp <C-R>=expand('%:h').'/'<cr>
+nmap <leader>et :tabe <C-R>=expand('%:h').'/'<cr>
+
+" Tab helpers
+nmap <leader>tn :tabnew<CR>
+nmap <leader>tl gt
+nmap <leader>th gT
+
+" Highlight trailiing whitespace
+match ErrorMsg '\s\+$'
+nmap <leader>rtw :%s/\s\+$//e<CR>``
+
+" Insert current directory path into a command
+cnoremap <expr> <C-P> getcmdline()[getcmdpos()-2] ==# ' ' ? expand('%:p:h').'/' : "\<C-P>"
+
+" Find merge conflict markers
+nmap <silent> <leader>fc <ESC>/\v^[<=>\|]{7}( .*\|$)<CR>
+
+" Set Python virtualenv
+let g:python3_host_prog='~/.pyenv/versions/neovim/bin/python'
+
+" Disable unused providers
+let g:loaded_ruby_provider=0
+let g:loaded_node_provider=0
+let g:loaded_perl_provider=0
+
+" Set shell to fish
+set shell=fish
+
+" Insert single character
+nmap <C-I> :<C-U>call InsertChar#insert(v:count1)<CR>
+
+" FZF
+nmap <C-P> :Files<CR>
+
+" NERDTree
+nmap <leader>n :NERDTreeToggle<CR>
+let NERDTreeHighlightCursorline=1
+let g:NERDTreeQuitOnOpen=1
+
+" tComment
+let g:tcomment_mapleader1=''
+let g:tcomment_opleader1=''
+let g:tcomment_opleader2=''
+nmap <C-_> :TComment<CR>
+vmap <C-_> :TCommentMaybeInline<CR>gv<ESC>
+imap <C-_> <C-O>:TComment<CR>
+
+" Go
+let g:go_fmt_command="goimports"
+
+" Terraform
+let g:terraform_fmt_on_save=1
+
+" Markdown
+au BufRead,BufNewFile *.md setlocal textwidth=80
+let g:mkdp_auto_start=1
+
+" Deoplete
+if has('nvim')
+  let g:deoplete#enable_at_startup=1
+else
+  let g:deoplete#enable_at_startup=0
+endif
+
+" LSP
+if has('nvim') && isdirectory(g:plugs['nvim-lspconfig'].dir)
+lua <<EOF
+  local lspconfig = require('lspconfig')
+
+  lspconfig.pyright.setup {}
+  lspconfig.gopls.setup {}
+  lspconfig.tsserver.setup {}
+  lspconfig.terraformls.setup {}
+EOF
+endif
