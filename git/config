@@ -1,0 +1,26 @@
+[user]
+  name = Christopher Kim
+	email = github@chriz.kim
+[core]
+	excludesfile = /Users/rigatoni/.gitignore
+[push]
+  default = simple
+[merge]
+  conflictstyle = diff3
+[alias]
+  br = branch
+  ci = commit
+  co = checkout
+  df = diff
+  ds = diff --staged
+  ign = ls-files -o -i --exclude-standard
+  lg = log -p
+  lol = log --graph --decorate --pretty=oneline --abbrev-commit
+  lola = log --graph --decorate --pretty=oneline --abbrev-commit --all --date=local
+  ls = ls-files
+  st = status
+  unstage = reset HEAD
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false

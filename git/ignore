@@ -1,0 +1,6 @@
+.DS_Store
+*.swp
+.node-version
+.python-version
+.ruby-version
+.go-version
