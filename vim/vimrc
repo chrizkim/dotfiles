@@ -6,13 +6,13 @@ set shell=bash
 let g:polyglot_disabled=['go', 'terraform']
 
 " ~~~~ Start Plug config ~~~~
-
 call plug#begin('~/.vim/plugged')
 
 Plug 'airblade/vim-gitgutter'
 Plug 'bling/vim-airline'
 Plug 'bronson/vim-visual-star-search'
 Plug 'croaker/mustang-vim'
+Plug 'deoplete-plugins/deoplete-lsp'
 Plug 'ervandew/supertab'
 Plug 'fatih/vim-go', { 'do': 'nvim -c GoUpdateBinaries -c qa!' }
 Plug 'hashivim/vim-terraform'
@@ -20,6 +20,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && ~/.nodenv/shims/npx --ye
 Plug 'jlanzarotta/bufexplorer'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'matsui54/denops-popup-preview.vim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'scrooloose/nerdtree'
 Plug 'sheerun/vim-polyglot'
@@ -30,6 +31,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
+Plug 'vim-denops/denops.vim'
 Plug 'vim-scripts/InsertChar'
 Plug 'vim-utils/vim-husk'
 
@@ -178,8 +180,14 @@ let g:mkdp_auto_start=1
 " Deoplete
 if has('nvim')
   let g:deoplete#enable_at_startup=1
+  set completeopt-=preview
 else
   let g:deoplete#enable_at_startup=0
+endif
+
+" Popup Preview
+if isdirectory(g:plugs['denops-popup-preview.vim'].dir)
+  call popup_preview#enable()
 endif
 
 " LSP
@@ -191,5 +199,7 @@ lua <<EOF
   lspconfig.gopls.setup {}
   lspconfig.tsserver.setup {}
   lspconfig.terraformls.setup {}
+
+  vim.lsp.set_log_level('off')
 EOF
 endif
