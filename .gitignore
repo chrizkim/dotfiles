@@ -4,6 +4,9 @@
 !fish/
 !fish/**
 
+!tmux/
+!tmux/**
+
 !git/
 !git/**
 
