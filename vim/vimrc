@@ -154,6 +154,22 @@ nmap <C-I> :<C-U>call InsertChar#insert(v:count1)<CR>
 " FZF
 nmap <C-P> :Files<CR>
 
+" BufExplorer
+function! BufExplorerVToggle()
+  let winnr = bufwinnr('\[BufExplorer]')
+
+  if winnr == -1
+    execute 'BufExplorerVerticalSplit'
+    execute 'vertical resize 31'
+  else
+    execute winnr . 'wincmd c'
+  endif
+endfunction
+
+command! BufExplorerVToggle :call BufExplorerVToggle()
+let g:bufExplorerDisableDefaultKeyMapping=1
+nmap <leader>b :BufExplorerVToggle<CR>
+
 " NERDTree
 nmap <leader>n :NERDTreeToggle<CR>
 let NERDTreeHighlightCursorline=1
