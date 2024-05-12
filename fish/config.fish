@@ -60,6 +60,7 @@ end
 
 fish_add_path $HOME/.tfswitch
 fish_add_path $HOME/.docker/bin
+fish_add_path ./node_modules/.bin
 
 fish_add_path $HOME/.local/bin
 fish_add_path $HOME/.bin
