@@ -206,7 +206,7 @@ let g:UltiSnipsJumpBackwardTrigger='<Plug>(ultisnips_jump_backward)'
 let g:UltiSnipsListSnippets='<C-X><C-S>'
 let g:UltiSnipsRemoveSelectModeMappings=0
 
-" LSP
+" nvim-cmp
 if has('nvim') && isdirectory(g:plugs['nvim-lspconfig'].dir)
 lua <<EOF
   local t = function(str)
@@ -343,9 +343,8 @@ lua <<EOF
     }, {
       { name = 'nvim_lsp_signature_help' },
     }, {
-      { name = 'buffer' },
-    }, {
       { name = 'path' },
+      { name = 'buffer' },
     })
   })
 
