@@ -24,6 +24,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && ~/.nodenv/shims/npx --ye
 Plug 'jlanzarotta/bufexplorer'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'liuchengxu/vista.vim'
 Plug 'mhinz/vim-signify'
 Plug 'neovim/nvim-lspconfig'
 Plug 'onsails/lspkind.nvim'
@@ -207,6 +208,10 @@ let g:UltiSnipsJumpForwardTrigger='<Plug>(ultisnips_jump_forward)'
 let g:UltiSnipsJumpBackwardTrigger='<Plug>(ultisnips_jump_backward)'
 let g:UltiSnipsListSnippets='<C-X><C-S>'
 let g:UltiSnipsRemoveSelectModeMappings=0
+
+" Vista
+let g:vista_default_executive='nvim_lsp'
+nmap <leader>m :Vista!!<CR>
 
 " nvim-cmp
 if has('nvim') && isdirectory(g:plugs['nvim-lspconfig'].dir)
