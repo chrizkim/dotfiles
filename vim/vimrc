@@ -146,6 +146,9 @@ cnoremap <expr> <C-P> getcmdline()[getcmdpos()-2] ==# ' ' ? expand('%:p:h').'/' 
 " Find merge conflict markers
 nmap <silent> <leader>fc <ESC>/\v^[<=>\|]{7}( .*\|$)<CR>
 
+" Jump diagnostic
+nmap <leader>j :lua vim.diagnostic.goto_next()<CR>
+
 " Set Python virtualenv
 let g:python3_host_prog='~/.pyenv/versions/neovim/bin/python'
 
