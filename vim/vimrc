@@ -51,6 +51,8 @@ set background=dark
 if !empty(globpath(&rtp, 'colors/mustang.vim'))
   colorscheme mustang
   hi VertSplit ctermfg=242 ctermbg=none
+  hi FloatBorder guibg=none ctermbg=none
+  hi NormalFloat guibg=none ctermbg=none
 endif
 
 " View options
@@ -380,11 +382,34 @@ lua <<EOF
     }
   end
 
+  vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+    vim.lsp.handlers.hover,
+    {
+      focusable = false,
+      border = 'rounded',
+      style = "minimal",
+      max_width = 80,
+      silent = true,
+    }
+  )
+  vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
+    vim.lsp.handlers.signature_help, {
+      border = 'rounded',
+      close_events = {"BufHidden", "InsertLeave"},
+    }
+  )
+  vim.diagnostic.config {
+    float = {
+      border = "rounded",
+    }
+  }
+
   vim.o.updatetime = 1000
   vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
     group = vim.api.nvim_create_augroup("float_diagnostic", { clear = true }),
     callback = function ()
       vim.diagnostic.open_float(nil, {focus=false})
+      vim.lsp.buf.hover()
     end
   })
 
