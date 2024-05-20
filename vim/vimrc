@@ -27,9 +27,10 @@ Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vista.vim'
 Plug 'mhinz/vim-signify'
 Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-tree/nvim-tree.lua'
+Plug 'nvim-tree/nvim-web-devicons'
 Plug 'onsails/lspkind.nvim'
 Plug 'quangnguyen30192/cmp-nvim-ultisnips'
-Plug 'scrooloose/nerdtree'
 Plug 'SirVer/ultisnips'
 Plug 'sheerun/vim-polyglot'
 Plug 'tomtom/tcomment_vim'
@@ -46,6 +47,7 @@ call plug#end()
 " ~~~~ End Plug config ~~~~
 
 set nocompatible
+set termguicolors
 
 " Mustang colorscheme
 set background=dark
@@ -182,10 +184,24 @@ command! BufExplorerVToggle :call BufExplorerVToggle()
 let g:bufExplorerDisableDefaultKeyMapping=1
 nmap <leader>b :BufExplorerVToggle<CR>
 
-" NERDTree
-nmap <leader>n :NERDTreeToggle<CR>
-let NERDTreeHighlightCursorline=1
-let g:NERDTreeQuitOnOpen=1
+" nvim-tree
+let g:loaded_netrw=1
+let g:loaded_netrwPlugin=1
+if has('nvim') && isdirectory(g:plugs['nvim-tree.lua'].dir)
+lua <<EOF
+  require('nvim-tree').setup({
+    actions = {
+      open_file = {
+        quit_on_open = true,
+      },
+    },
+    filters = {
+      dotfiles = true,
+    },
+  })
+EOF
+endif
+nmap <leader>n :NvimTreeToggle<CR>
 
 " tComment
 let g:tcomment_mapleader1=''
