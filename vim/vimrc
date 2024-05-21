@@ -8,6 +8,7 @@ let g:polyglot_disabled=['go', 'terraform']
 " ~~~~ Start Plug config ~~~~
 call plug#begin('~/.vim/plugged')
 
+Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 Plug 'bling/vim-airline'
 Plug 'bronson/vim-visual-star-search'
 Plug 'fatih/vim-go', { 'do': 'nvim -c GoUpdateBinaries -c qa!' }
@@ -92,6 +93,7 @@ hi Keyword    guifg=#ff9800 gui=none ctermfg=208
 hi Constant   guifg=#ff9800 gui=none ctermfg=208
 hi Number     guifg=#ff9800 gui=none ctermfg=208
 hi Special    guifg=#ff9800 gui=none ctermfg=208
+
 hi PreProc    guifg=#faf4c6 gui=none ctermfg=230
 hi Todo       guifg=#000000 guibg=#e6ea50 gui=italic
 
@@ -173,18 +175,13 @@ nmap <leader>sh :leftabove vnew<cr>
 nmap <leader>sl :rightbelow vnew<cr>
 nmap <leader>sk :leftabove new<cr>
 nmap <leader>sj :rightbelow new<cr>
-nmap <leader>st :tabnew<CR>
+nmap <leader>st :tabnew<cr>
 
 " Edit file helpers
 nmap <leader>ew :e <C-R>=expand('%:h').'/'<cr>
 nmap <leader>es :sp <C-R>=expand('%:h').'/'<cr>
 nmap <leader>ev :vsp <C-R>=expand('%:h').'/'<cr>
 nmap <leader>et :tabe <C-R>=expand('%:h').'/'<cr>
-
-" Tab helpers
-nmap <leader>tn :tabnew<CR>
-nmap <leader>tl gt
-nmap <leader>th gT
 
 " Highlight trailiing whitespace
 match ErrorMsg '\s\+$'
@@ -264,6 +261,13 @@ let g:go_fmt_command="goimports"
 
 " Terraform
 let g:terraform_fmt_on_save=1
+
+" ToggleTerm
+lua require("toggleterm").setup()
+nmap <leader>y :ToggleTerm direction=horizontal<cr>
+nmap <leader>t :ToggleTerm direction=float<cr>
+tmap <ESC> <C-\><C-n>
+tmap <C-\><C-q> <ESC>:ToggleTerm<cr>
 
 " Markdown
 au BufRead,BufNewFile *.md setlocal textwidth=80
