@@ -232,6 +232,10 @@ let g:UltiSnipsRemoveSelectModeMappings=0
 let g:vista_default_executive='nvim_lsp'
 nmap <leader>m :Vista!!<CR>
 
+" LSP
+nmap <C-K> :lua vim.lsp.buf.hover()<CR>
+nmap <C-J> hl
+
 " nvim-cmp
 if has('nvim') && isdirectory(g:plugs['nvim-lspconfig'].dir)
 lua <<EOF
@@ -258,7 +262,7 @@ lua <<EOF
     view = {
       entries = {
         name = "custom",
-        selection_order = "near_cursor",
+        selection_order = "top_down",
       },
     },
     snippet = {
@@ -409,7 +413,6 @@ lua <<EOF
   vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
     vim.lsp.handlers.hover,
     {
-      focusable = false,
       border = 'rounded',
       style = "minimal",
       max_width = 80,
@@ -433,7 +436,6 @@ lua <<EOF
     group = vim.api.nvim_create_augroup("float_diagnostic", { clear = true }),
     callback = function ()
       vim.diagnostic.open_float(nil, {focus=false})
-      vim.lsp.buf.hover()
     end
   })
 
