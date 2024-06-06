@@ -8,7 +8,7 @@ let g:polyglot_disabled=['go', 'terraform']
 " ~~~~ Start Plug config ~~~~
 call plug#begin('~/.vim/plugged')
 
-Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+Plug 'akinsho/toggleterm.nvim', {'tag': '*'}
 Plug 'bling/vim-airline'
 Plug 'bronson/vim-visual-star-search'
 Plug 'fatih/vim-go', { 'do': 'nvim -c GoUpdateBinaries -c qa!' }
@@ -52,8 +52,7 @@ set termguicolors
 " Mustang colorscheme
 set background=dark
 hi clear
-
-if exists("syntax_on")
+if exists('syntax_on')
   syntax reset
 endif
 
@@ -130,9 +129,9 @@ set clipboard=unnamed
 cmap w!! w !sudo -S tee > /dev/null %
 
 " Cursor styles for Insert/Replace/Normal modes
-let &t_SI="\e[6 q"
-let &t_SR="\e[4 q"
-let &t_EI="\e[2 q"
+let &t_SI='\e[6 q'
+let &t_SR='\e[4 q'
+let &t_EI='\e[2 q'
 
 " Highlight row and column
 set cursorline
@@ -167,24 +166,24 @@ set smartcase
 let mapleader="\<space>"
 
 " Open new buffers helpers
-nmap <leader>sh :leftabove vnew<cr>
-nmap <leader>sl :rightbelow vnew<cr>
-nmap <leader>sk :leftabove new<cr>
-nmap <leader>sj :rightbelow new<cr>
-nmap <leader>st :tabnew<cr>
+nmap <leader>sh :leftabove vnew<CR>
+nmap <leader>sl :rightbelow vnew<CR>
+nmap <leader>sk :leftabove new<CR>
+nmap <leader>sj :rightbelow new<CR>
+nmap <leader>st :tabnew<CR>
 
 " Edit file helpers
-nmap <leader>ew :e <C-R>=expand('%:h').'/'<cr>
-nmap <leader>es :sp <C-R>=expand('%:h').'/'<cr>
-nmap <leader>ev :vsp <C-R>=expand('%:h').'/'<cr>
-nmap <leader>et :tabe <C-R>=expand('%:h').'/'<cr>
+nmap <leader>ew :e <C-R>=expand('%:h').'/'<CR>
+nmap <leader>es :sp <C-R>=expand('%:h').'/'<CR>
+nmap <leader>ev :vsp <C-R>=expand('%:h').'/'<CR>
+nmap <leader>et :tabe <C-R>=expand('%:h').'/'<CR>
 
 " Highlight trailiing whitespace
-match ErrorMsg '\s\+$'
+match Error '\s\+$'
 nmap <leader>rtw :%s/\s\+$//e<CR>``
 
 " Insert current directory path into a command
-cnoremap <expr> <C-P> getcmdline()[getcmdpos()-2] ==# ' ' ? expand('%:p:h').'/' : "\<C-P>"
+cnoremap <expr> <C-P> getcmdline()[getcmdpos()-2] ==# ' ' ? expand('%:p:h').'/' : '\<C-P>'
 
 " Find merge conflict markers
 nmap <silent> <leader>fc <ESC>/\v^[<=>\|]{7}( .*\|$)<CR>
@@ -211,7 +210,7 @@ nmap <C-P> :Files<CR>
 
 " BufExplorer
 function! BufExplorerVToggle()
-  let winnr = bufwinnr('\[BufExplorer]')
+  let winnr=bufwinnr('\[BufExplorer]')
 
   if winnr == -1
     execute 'BufExplorerVerticalSplit'
@@ -226,14 +225,18 @@ let g:bufExplorerDisableDefaultKeyMapping=1
 nmap <leader>b :BufExplorerVToggle<CR>
 
 " nvim-tree
-let g:loaded_netrw=1
-let g:loaded_netrwPlugin=1
 if has('nvim') && isdirectory(g:plugs['nvim-tree.lua'].dir)
 lua <<EOF
+  vim.g.loaded_netrw = 1
+  vim.g.loaded_netrwPlugin = 1
+
   require('nvim-tree').setup({
     actions = {
       open_file = {
         quit_on_open = true,
+        window_picker = {
+          enable = false,
+        },
       },
     },
     filters = {
@@ -253,21 +256,22 @@ vmap <C-_> :TCommentMaybeInline<CR>gv<ESC>
 imap <C-_> <C-O>:TComment<CR>
 
 " Go
-let g:go_fmt_command="goimports"
+let g:go_fmt_command='goimports'
 
 " Terraform
 let g:terraform_fmt_on_save=1
 
 " ToggleTerm
-lua require("toggleterm").setup()
-nmap <leader>y :ToggleTerm direction=horizontal<cr>
-nmap <leader>t :ToggleTerm direction=float<cr>
-tmap <ESC> <C-\><C-n>
-tmap <C-\><C-q> <ESC>:ToggleTerm<cr>
+lua require('toggleterm').setup()
+nmap <leader>y :ToggleTerm direction=horizontal<CR>
+nmap <leader>t :ToggleTerm direction=float<CR>
+tmap <ESC> <C-\><C-N>
+tmap <C-\><C-Q> <ESC>:ToggleTerm<CR>
 
 " Markdown
 au BufRead,BufNewFile *.md setlocal textwidth=80
-let g:mkdp_auto_start=1
+let g:mkdp_auto_start=0
+nmap <leader>p <Plug>MarkdownPreviewToggle
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger='<Plug>(ultisnips_expand)'
@@ -297,25 +301,25 @@ lua <<EOF
   cmp.setup({
     formatting = {
       format = lspkind.cmp_format({
-        preset = "codicons",
-        mode = "symbol_text",
+        preset = 'codicons',
+        mode = 'symbol_text',
         menu = ({
-          buffer = "[Buffer]",
-          path = "[Path]",
-          nvim_lsp = "[LSP]",
-          ultisnips = "[Snip]",
+          buffer = '[Buffer]',
+          path = '[Path]',
+          nvim_lsp = '[LSP]',
+          ultisnips = '[Snip]',
         }),
       }),
     },
     view = {
       entries = {
-        name = "custom",
-        selection_order = "top_down",
+        name = 'custom',
+        selection_order = 'top_down',
       },
     },
     snippet = {
       expand = function(args)
-        vim.fn["UltiSnips#Anon"](args.body)
+        vim.fn['UltiSnips#Anon'](args.body)
       end,
     },
     window = {
@@ -323,7 +327,10 @@ lua <<EOF
       documentation = cmp.config.window.bordered(),
     },
     mapping = {
-      ["<Tab>"] = cmp.mapping({
+      ['<Esc>'] = cmp.mapping({
+        c = cmp.mapping.close(),
+      }),
+      ['<Tab>'] = cmp.mapping({
         c = function()
           if cmp.visible() then
             cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
@@ -334,21 +341,21 @@ lua <<EOF
         i = function(fallback)
           if cmp.visible() then
             cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-          elseif vim.fn["UltiSnips#CanJumpForwards"]() == 1 then
-            vim.api.nvim_feedkeys(t("<Plug>(ultisnips_jump_forward)"), 'm', true)
+          elseif vim.fn['UltiSnips#CanJumpForwards']() == 1 then
+            vim.api.nvim_feedkeys(t('<Plug>(ultisnips_jump_forward)'), 'm', true)
           else
             fallback()
           end
         end,
         s = function(fallback)
-          if vim.fn["UltiSnips#CanJumpForwards"]() == 1 then
-            vim.api.nvim_feedkeys(t("<Plug>(ultisnips_jump_forward)"), 'm', true)
+          if vim.fn['UltiSnips#CanJumpForwards']() == 1 then
+            vim.api.nvim_feedkeys(t('<Plug>(ultisnips_jump_forward)'), 'm', true)
           else
             fallback()
           end
         end
       }),
-      ["<S-Tab>"] = cmp.mapping({
+      ['<S-Tab>'] = cmp.mapping({
         c = function()
           if cmp.visible() then
             cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
@@ -359,15 +366,15 @@ lua <<EOF
         i = function(fallback)
           if cmp.visible() then
             cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
-          elseif vim.fn["UltiSnips#CanJumpBackwards"]() == 1 then
-            return vim.api.nvim_feedkeys( t("<Plug>(ultisnips_jump_backward)"), 'm', true)
+          elseif vim.fn['UltiSnips#CanJumpBackwards']() == 1 then
+            return vim.api.nvim_feedkeys( t('<Plug>(ultisnips_jump_backward)'), 'm', true)
           else
             fallback()
           end
         end,
         s = function(fallback)
-          if vim.fn["UltiSnips#CanJumpBackwards"]() == 1 then
-            return vim.api.nvim_feedkeys( t("<Plug>(ultisnips_jump_backward)"), 'm', true)
+          if vim.fn['UltiSnips#CanJumpBackwards']() == 1 then
+            return vim.api.nvim_feedkeys( t('<Plug>(ultisnips_jump_backward)'), 'm', true)
           else
             fallback()
           end
@@ -462,7 +469,7 @@ lua <<EOF
     vim.lsp.handlers.hover,
     {
       border = 'rounded',
-      style = "minimal",
+      style = 'minimal',
       max_width = 80,
       silent = true,
     }
@@ -470,18 +477,18 @@ lua <<EOF
   vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
     vim.lsp.handlers.signature_help, {
       border = 'rounded',
-      close_events = {"BufHidden", "InsertLeave"},
+      close_events = {'BufHidden', 'InsertLeave'},
     }
   )
   vim.diagnostic.config {
     float = {
-      border = "rounded",
+      border = 'rounded',
     }
   }
 
   vim.o.updatetime = 1000
-  vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-    group = vim.api.nvim_create_augroup("float_diagnostic", { clear = true }),
+  vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+    group = vim.api.nvim_create_augroup('float_diagnostic', { clear = true }),
     callback = function ()
       vim.diagnostic.open_float(nil, {focus=false})
     end
