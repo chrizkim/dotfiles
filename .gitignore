@@ -10,5 +10,5 @@
 !git/
 !git/**
 
-!vim/
-!vim/**
+!nvim/
+!nvim/**
