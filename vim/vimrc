@@ -11,6 +11,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'akinsho/toggleterm.nvim', {'tag': '*'}
 Plug 'bling/vim-airline'
 Plug 'bronson/vim-visual-star-search'
+Plug 'cedarbaum/fugitive-azure-devops.vim'
 Plug 'fatih/vim-go', { 'do': 'nvim -c GoUpdateBinaries -c qa!' }
 Plug 'gfanto/fzf-lsp.nvim'
 Plug 'hashivim/vim-terraform'
