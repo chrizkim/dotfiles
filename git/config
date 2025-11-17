@@ -24,3 +24,9 @@
 	defaultBranch = main
 [pull]
 	rebase = false
+[includeIf "gitdir:~/Projects/bfi/**"]
+  path = ~/Projects/bfi/.gitconfig
+[includeIf "gitdir:~/Projects/delightfulrobot/**"]
+  path = ~/Projects/delightfulrobot/.gitconfig
+[includeIf "gitdir:~/Projects/originate/**"]
+  path = ~/Projects/originate/.gitconfig
