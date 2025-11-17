@@ -465,7 +465,7 @@ lua <<EOF
     'gopls',
     'pyright',
     'terraformls',
-    'tsserver',
+    'ts_ls',
   }
 
   for _, lsp in ipairs(lsps) do
